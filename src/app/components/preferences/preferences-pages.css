@@ -1,0 +1,22 @@
+.global-parent {
+  margin-top: 10px;
+}
+
+.child-container {
+  margin: 10px 0;
+}
+button {
+  margin-bottom: 15px;
+  padding: 5px 10px;
+}
+
+.child-container {
+  margin: 0;
+}
+
+.container {
+  flex-direction: row;
+}
+button {
+  background-color: #80bdad;
+}
