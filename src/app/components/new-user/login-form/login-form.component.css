@@ -11,6 +11,9 @@
   margin: 10px 0 10px 0;
   text-align: center;
 }
+.center {
+  text-align: center;
+}
 
 @media screen and (max-width: 414px) {
   .background-img {

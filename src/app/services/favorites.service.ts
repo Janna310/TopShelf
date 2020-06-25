@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Subject } from 'rxjs';
-import { Router } from '@angular/router';
+import { Injectable } from "@angular/core";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Subject } from "rxjs";
+import { Router } from "@angular/router";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class FavoritesService {
   favorites: any[] = [];
@@ -15,12 +15,16 @@ export class FavoritesService {
   addToFavorites(drink) {
     let headers = new HttpHeaders();
     headers = headers.set(
-      'authorization',
-      localStorage.getItem('topShelf_token')
+      "authorization",
+      localStorage.getItem("topShelf_token")
     );
 
     this.http
-      .post<{ message: string; items: any }>('/api/recipes', drink, { headers })
+      .post<{ message: string; items: any }>(
+        "https://topshelfdrinks.herokuapp.com/recipes",
+        drink,
+        { headers }
+      )
       .subscribe((response) => {
         console.log(response.message);
         this.favorites.push(drink);
@@ -31,23 +35,27 @@ export class FavoritesService {
   }
 
   userRecipes(recipe) {
-    console.log('service', recipe);
+    console.log("service", recipe);
     let headers = new HttpHeaders();
     headers = headers.set(
-      'authorization',
-      localStorage.getItem('topShelf_token')
+      "authorization",
+      localStorage.getItem("topShelf_token")
     );
 
     this.http
-      .post<{ message: string; items: any }>('/api/recipes/created', recipe, {
-        headers,
-      })
+      .post<{ message: string; items: any }>(
+        "https://topshelfdrinks.herokuapp.com/recipes/created",
+        recipe,
+        {
+          headers,
+        }
+      )
       .subscribe((response) => {
         console.log(response.message);
         this.favorites.push(recipe);
 
         this.favoritesUpdated.next([...this.favorites]);
-        this.router.navigate(['/preferences']);
+        this.router.navigate(["/preferences"]);
         // console.log('service', this.favorites);
       });
   }
@@ -55,12 +63,15 @@ export class FavoritesService {
   getFavorites() {
     let headers = new HttpHeaders();
     headers = headers.set(
-      'authorization',
-      localStorage.getItem('topShelf_token')
+      "authorization",
+      localStorage.getItem("topShelf_token")
     );
 
     this.http
-      .get<{ message: string; items: any }>('/api/recipes', { headers })
+      .get<{ message: string; items: any }>(
+        "https://topshelfdrinks.herokuapp.com/recipes",
+        { headers }
+      )
       .subscribe((response) => {
         console.log(response.message);
         this.favorites = response.items;
@@ -76,7 +87,9 @@ export class FavoritesService {
     // console.log('service', drinkId);
     const parsedId = drink.idDrink;
     this.http
-      .delete<{ message: string; items: any }>(`/api/recipes/${parsedId}`)
+      .delete<{ message: string; items: any }>(
+        `https://topshelfdrinks.herokuapp.com/recipes/${parsedId}`
+      )
       .subscribe((response) => {
         console.log(response.message);
         this.favorites = this.favorites.filter(
@@ -89,7 +102,9 @@ export class FavoritesService {
   deleteFromPref(drinkId) {
     // console.log('drinkID', drinkId);
     this.http
-      .delete<{ message: string; items: any }>(`/api/recipes/${drinkId}`)
+      .delete<{ message: string; items: any }>(
+        `https://topshelfdrinks.herokuapp.com/recipes/${drinkId}`
+      )
       .subscribe((response) => {
         console.log(response.message);
 
@@ -107,16 +122,21 @@ export class FavoritesService {
   savedRecipeDetails(recipeID) {
     console.log(recipeID);
 
-    return this.http.get(`/api/recipes/${recipeID}`);
+    return this.http.get(
+      `https://topshelfdrinks.herokuapp.com/recipes/${recipeID}`
+    );
   }
 
   getDetails(recipeID) {
     let headers = new HttpHeaders();
     headers = headers.set(
-      'authorization',
-      localStorage.getItem('topShelf_token')
+      "authorization",
+      localStorage.getItem("topShelf_token")
     );
     // console.log('service', recipeID);
-    return this.http.get(`/api/recipes/${recipeID}`, { headers });
+    return this.http.get(
+      `https://topshelfdrinks.herokuapp.com/recipes/${recipeID}`,
+      { headers }
+    );
   }
 }

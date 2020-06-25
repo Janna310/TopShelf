@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { Injectable } from "@angular/core";
+import { HttpHeaders, HttpClient } from "@angular/common/http";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class NavbarService {
   visible: boolean;
@@ -18,9 +18,11 @@ export class NavbarService {
   getUserPic() {
     let headers = new HttpHeaders();
     headers = headers.set(
-      'authorization',
-      localStorage.getItem('topShelf_token')
+      "authorization",
+      localStorage.getItem("topShelf_token")
     );
-    return this.http.get('/api/users/pic', { headers });
+    return this.http.get("https://topshelfdrinks.herokuapp.com/users/pic", {
+      headers,
+    });
   }
 }

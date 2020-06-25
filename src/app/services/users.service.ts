@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { FormGroup } from '@angular/forms';
+import { Injectable } from "@angular/core";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Router } from "@angular/router";
+import { FormGroup } from "@angular/forms";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class UsersService {
   userNameList = [];
@@ -16,16 +16,18 @@ export class UsersService {
   getUsers(): any {
     let headers = new HttpHeaders();
     headers = headers.set(
-      'authorization',
-      localStorage.getItem('topShelf_token')
+      "authorization",
+      localStorage.getItem("topShelf_token")
     );
-    return this.http.get('/api/users', { headers });
+    return this.http.get("https://topshelfdrinks.herokuapp.com/users", {
+      headers,
+    });
   }
 
   addNewUser(formValue) {
     this.http
       .post<{ message: string; goodToGo: boolean; token }>(
-        '/api/users/register',
+        "https://topshelfdrinks.herokuapp.com/users/register",
         formValue
       )
       .subscribe((response) => {
@@ -37,9 +39,9 @@ export class UsersService {
         } else {
           // console.log(response.message);
           console.log(response.token);
-          localStorage.setItem('token', response.token);
+          localStorage.setItem("token", response.token);
 
-          this.router.navigate(['/the-feed']);
+          this.router.navigate(["/the-feed"]);
         }
       });
   }
@@ -51,7 +53,7 @@ export class UsersService {
         goodToGo: boolean;
         user: any;
         token: any;
-      }>('api/users/login', formValue)
+      }>("https://topshelfdrinks.herokuapp.com/users/login", formValue)
       .subscribe((response) => {
         // console.log('service', response.user);
         if (!response.goodToGo) {
@@ -60,9 +62,9 @@ export class UsersService {
           console.log(response.message);
         } else {
           console.log(response.message);
-          localStorage.setItem('token', response.token);
+          localStorage.setItem("token", response.token);
 
-          this.router.navigate(['/the-feed']);
+          this.router.navigate(["/the-feed"]);
         }
       });
   }
@@ -70,16 +72,16 @@ export class UsersService {
   loggedIn() {
     // looks for token in local storage
     // returns true/false
-    return !!localStorage.getItem('token');
+    return !!localStorage.getItem("token");
   }
 
   logOutUser() {
-    localStorage.removeItem('token');
-    this.router.navigate(['/login']);
+    localStorage.removeItem("token");
+    this.router.navigate(["/login"]);
   }
 
   getToken() {
-    return localStorage.getItem('token');
+    return localStorage.getItem("token");
   }
 
   PasswordValidation(password: string, password2: string) {

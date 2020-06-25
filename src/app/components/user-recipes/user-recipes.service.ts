@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from "@angular/core";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class UserRecipesService {
   constructor(private http: HttpClient) {}
@@ -11,12 +11,16 @@ export class UserRecipesService {
     // console.log(formValue);
     let headers = new HttpHeaders();
     headers = headers.set(
-      'authorization',
-      localStorage.getItem('topShelf_token')
+      "authorization",
+      localStorage.getItem("topShelf_token")
     );
 
     this.http
-      .post<{ message: string }>('/api/recipes', formValue, { headers })
+      .post<{ message: string }>(
+        "https://topshelfdrinks.herokuapp.com/recipes",
+        formValue,
+        { headers }
+      )
       .subscribe((response) => {
         console.log(response.message);
       });
@@ -25,9 +29,11 @@ export class UserRecipesService {
   getRecipes() {
     let headers = new HttpHeaders();
     headers = headers.set(
-      'authorization',
-      localStorage.getItem('topShelf_token')
+      "authorization",
+      localStorage.getItem("topShelf_token")
     );
-    return this.http.get('/api/recipes', { headers });
+    return this.http.get("https://topshelfdrinks.herokuapp.com/recipes", {
+      headers,
+    });
   }
 }

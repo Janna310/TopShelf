@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class ImageUploadService {
   constructor(private http: HttpClient) {}
@@ -14,7 +14,10 @@ export class ImageUploadService {
 
     // console.log('formData Get', formData.get('image'));
     // console.log('formdata', formData);
-    console.log('service image', image);
-    return this.http.post('/api/drink-posts/images', 'image being sent');
+    console.log("service image", image);
+    return this.http.post(
+      "https://topshelfdrinks.herokuapp.com/drink-posts/images",
+      "image being sent"
+    );
   }
 }

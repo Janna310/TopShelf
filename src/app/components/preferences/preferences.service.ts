@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from "@angular/core";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 
-import { Subject } from 'rxjs';
-import { AuthService } from 'src/app/services/auth.service';
-import { ItemCloud } from './item_cloud';
+import { Subject } from "rxjs";
+import { AuthService } from "src/app/services/auth.service";
+import { ItemCloud } from "./item_cloud";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class PreferencesService {
   items: ItemCloud[] = [];
@@ -22,7 +22,7 @@ export class PreferencesService {
   //     );
 
   //     this.http
-  //       .get<{ message: string; items: any }>('/api/preferences', { headers })
+  //       .get<{ message: string; items: any }>('//api/preferences', { headers })
   //       .subscribe((data) => {
   //         console.log(data.message);
   //         // console.log(data.items);
@@ -37,12 +37,15 @@ export class PreferencesService {
 
     let headers = new HttpHeaders();
     headers = headers.set(
-      'authorization',
-      localStorage.getItem('topShelf_token')
+      "authorization",
+      localStorage.getItem("topShelf_token")
     );
 
     this.http
-      .get<{ message: string; items: any }>('/api/favorites', { headers })
+      .get<{ message: string; items: any }>(
+        "https://topshelfdrinks.herokuapp.com/favorites",
+        { headers }
+      )
       .subscribe((data) => {
         console.log(data.message);
         // console.log(data.items, 'data working');
@@ -65,7 +68,7 @@ export class PreferencesService {
   //   );
 
   //   this.http
-  //     .post<{ message: string; items: any }>('/api/preferences', formValue, {
+  //     .post<{ message: string; items: any }>('//api/preferences', formValue, {
   //       headers,
   //     })
   //     .subscribe((response) => {
@@ -80,14 +83,18 @@ export class PreferencesService {
     // console.log('service', formValue);
     let headers = new HttpHeaders();
     headers = headers.set(
-      'authorization',
-      localStorage.getItem('topShelf_token')
+      "authorization",
+      localStorage.getItem("topShelf_token")
     );
 
     this.http
-      .post<{ message: string; items: any }>('/api/favorites', formValue, {
-        headers,
-      })
+      .post<{ message: string; items: any }>(
+        "https://topshelfdrinks.herokuapp.com/favorites",
+        formValue,
+        {
+          headers,
+        }
+      )
       .subscribe((response) => {
         console.log(response.message);
         // console.log('additems', response.items);
@@ -108,7 +115,9 @@ export class PreferencesService {
   // AWS
   deleteItem(itemId) {
     this.http
-      .delete<{ message: string; items: any }>(`/api/favorites/${itemId}`)
+      .delete<{ message: string; items: any }>(
+        `https://topshelfdrinks.herokuapp.com/favorites/${itemId}`
+      )
       .subscribe(() => {
         this.items = this.items.filter((item) => item.fav_id !== itemId);
         this.itemsUpdated.next([...this.items]);

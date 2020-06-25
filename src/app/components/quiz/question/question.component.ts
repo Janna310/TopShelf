@@ -1,11 +1,17 @@
-import { Component, OnInit, Output, Input, ɵChangeDetectorStatus } from '@angular/core';
-import { QuizQuestion } from './QuizQuestion';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  Component,
+  OnInit,
+  Output,
+  Input,
+  ɵChangeDetectorStatus,
+} from "@angular/core";
+import { QuizQuestion } from "./QuizQuestion";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
-  selector: 'app-question',
-  templateUrl: './question.component.html',
-  styleUrls: ['./question.component.css', '../quiz.component.css'],
+  selector: "app-question",
+  templateUrl: "./question.component.html",
+  styleUrls: ["./question.component.css", "../quiz.component.css"],
 })
 export class QuestionComponent implements OnInit {
   @Input() answer: string;
@@ -15,78 +21,80 @@ export class QuestionComponent implements OnInit {
   currentQuestion = 0;
   questionIndex: number;
   optionIndex: number;
+  selectedOption: string;
   status: boolean = false;
-  selectedIndex: number;  
+  selectedIndex: number;
+  finalInput: any = [];
 
   allQuestions: QuizQuestion[] = [
     {
       questionId: 1,
-      questionText: 'What type of food are you craving?',
+      questionText: "What type of food are you craving?",
       options: [
-        { optionValue: '1', optionText: 'Mexican' },
-        { optionValue: '2', optionText: 'Italian' },
-        { optionValue: '3', optionText: 'Greek' },
-        { optionValue: '4', optionText: 'American' },
-        { optionValue: '5', optionText: 'Asian' },
+        { optionValue: "1", optionText: "Mexican" },
+        { optionValue: "2", optionText: "Italian" },
+        { optionValue: "3", optionText: "Greek" },
+        { optionValue: "4", optionText: "American" },
+        { optionValue: "5", optionText: "Asian" },
       ],
-      selectedOption: '',
+      selectedOption: "",
     },
     {
       questionId: 2,
-      questionText: 'What mood describes you best right now?',
+      questionText: "What mood describes you best right now?",
       options: [
-        { optionValue: '1', optionText: 'Vacation mode' },
-        { optionValue: '2', optionText: 'Sunday funday' },
-        { optionValue: '3', optionText: 'Casual night out' },
-        { optionValue: '4', optionText: 'Permanent Homebody' },
+        { optionValue: "1", optionText: "Vacation mode" },
+        { optionValue: "2", optionText: "Sunday funday" },
+        { optionValue: "3", optionText: "Casual night out" },
+        { optionValue: "4", optionText: "Permanent Homebody" },
       ],
-      selectedOption: '',
+      selectedOption: "",
     },
     {
       questionId: 3,
-      questionText: 'What type of cocktail drinker are you?',
+      questionText: "What type of cocktail drinker are you?",
       options: [
-        { optionValue: '1', optionText: 'The Classic' },
-        { optionValue: '2', optionText: 'The Explorer' },
-        { optionValue: '3', optionText: 'The Tried and True' },
-        { optionValue: '4', optionText: 'The Novice' },
+        { optionValue: "1", optionText: "The Classic" },
+        { optionValue: "2", optionText: "The Explorer" },
+        { optionValue: "3", optionText: "The Tried and True" },
+        { optionValue: "4", optionText: "The Novice" },
       ],
-      selectedOption: '',
+      selectedOption: "",
     },
     {
       questionId: 4,
-      questionText: 'What meal is this accompanying?',
+      questionText: "What meal is this accompanying?",
       options: [
-        { optionValue: '1', optionText: 'Brunch' },
-        { optionValue: '2', optionText: 'Lunch' },
-        { optionValue: '3', optionText: 'Dinner' },
-        { optionValue: '4', optionText: 'Happy Hour' },
+        { optionValue: "1", optionText: "Brunch" },
+        { optionValue: "2", optionText: "Lunch" },
+        { optionValue: "3", optionText: "Dinner" },
+        { optionValue: "4", optionText: "Happy Hour" },
         {
-          optionValue: '5',
-          optionText: 'Nothing, the cocktail is the main event',
+          optionValue: "5",
+          optionText: "Nothing, the cocktail is the main event",
         },
       ],
-      selectedOption: '',
+      selectedOption: "",
     },
     {
       questionId: 5,
-      questionText: 'What is your preferred liquor?',
+      questionText: "What is your preferred liquor?",
       options: [
-        { optionValue: '1', optionText: 'Vodka' },
-        { optionValue: '2', optionText: 'Tequila' },
-        { optionValue: '3', optionText: 'Gin' },
-        { optionValue: '4', optionText: 'Whiskey' },
-        { optionValue: '5', optionText: 'Rum' },
-        { optionValue: '6', optionText: 'Bourbon' },
-        { optionValue: '7', optionText: 'IDK, surprise me' },
+        { optionValue: "1", optionText: "Vodka" },
+        { optionValue: "2", optionText: "Tequila" },
+        { optionValue: "3", optionText: "Gin" },
+        { optionValue: "4", optionText: "Whiskey" },
+        { optionValue: "5", optionText: "Rum" },
+        { optionValue: "6", optionText: "Bourbon" },
+        { optionValue: "7", optionText: "IDK, surprise me" },
       ],
-      selectedOption: '',
+      selectedOption: "",
     },
   ];
 
   constructor(private route: ActivatedRoute, private router: Router) {
     this.route.paramMap.subscribe((params) => {
-      this.setQuestionID(+params.get('questionId')); // get the question ID and store it
+      this.setQuestionID(+params.get("questionId")); // get the question ID and store it
       this.question = this.getQuestion;
     });
   }
@@ -101,35 +109,55 @@ export class QuestionComponent implements OnInit {
     this.status = !this.status;
   }
 
-  onSelect(index: number) {
-     this.selectedIndex = index;
-     this.changeStatus();
+  onAdd() {
+    this.finalInput.push(this.selectedOption);
+    console.log(this.finalInput);
+  }
+
+  onSelect(index: number, optionText: string) {
+    this.selectedIndex = index;
+    this.selectedOption = optionText;
+    console.log(this.selectedOption);
+    this.changeStatus();
+    this.onAdd();
+  }
+
+  generateResult() {
+    if (this.finalInput[4] === "Bourbon") {
+      console.log("WORKING!");
+    }
   }
 
   displayNextQuestion() {
     this.questionIndex = this.questionID++;
-    this.currentQuestion === this.currentQuestion++
+    this.currentQuestion === this.currentQuestion++;
     this.selectedIndex = null;
     this.changeStatus();
-    if (typeof document.getElementById('question') !== 'undefined' && this.getQuestionID() <= this.totalQuestions) {
-      document.getElementById('question').innerHTML = this.allQuestions[this.questionIndex]['questionText'];
+    if (
+      typeof document.getElementsByClassName("question") !== "undefined" &&
+      this.getQuestionID() <= this.totalQuestions
+    ) {
+      document.getElementById("question").innerHTML = this.allQuestions[
+        this.questionIndex
+      ]["questionText"];
     } else {
       this.navigateToResults();
     }
   }
 
   navigateToNextQuestion(): void {
-    this.router.navigate(['quiz/question', this.getQuestionID() + 1]);
+    this.router.navigate(["quiz/question", this.getQuestionID() + 1]);
     this.displayNextQuestion();
   }
 
   navigateToResults(): void {
     this.changeStatus();
-    this.router.navigate(['quiz/results'], { state:
-      {
+    this.generateResult();
+    this.router.navigate(["quiz/results"], {
+      state: {
         totalQuestions: this.totalQuestions,
-        allQuestions: this.allQuestions
-      }
+        allQuestions: this.allQuestions,
+      },
     });
   }
 
