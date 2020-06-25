@@ -40,16 +40,17 @@ img {
   padding: 0 30px;
   width: 460px;
   height: 540px;
+  border: 3px solid rgb(236, 184, 92);
 }
 
-img.border {
+/* img.border {
   margin: 0;
   padding: 0;
   border-image: url(../FeedBorder/feedImgBorder.svg) 50;
   border-color: rgb(236, 184, 92);
   border-style: outset;
   border-width: 40px;
-}
+} */
 
 .comments-container {
   margin: 10px 0 0px 0;
