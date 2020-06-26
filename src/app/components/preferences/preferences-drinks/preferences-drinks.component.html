@@ -4,6 +4,6 @@
   <div class="container" *ngFor="let item of favorites">
     <p>{{ item.drink_name }}</p>
     <a routerLink="saved-drinks/{{ item.saved_id }}">details</a>
-    <button (click)="onDelete(item.saved_id)">x</button>
+    <button (click)="onDelete(item.saved_id)">Delete</button>
   </div>
 </div>
